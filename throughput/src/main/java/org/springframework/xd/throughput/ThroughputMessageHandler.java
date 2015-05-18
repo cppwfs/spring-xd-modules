@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.context.Lifecycle;
+import org.springframework.integration.handler.MessageProcessor;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
@@ -34,7 +35,7 @@ import org.springframework.messaging.MessagingException;
  * @author Eric Bottard
  * @author Marius Bogoevici
  */
-public class ThroughputMessageHandler implements Lifecycle {
+public class ThroughputMessageHandler implements MessageProcessor, Lifecycle {
 
 	private Logger logger;
 
@@ -83,6 +84,11 @@ public class ThroughputMessageHandler implements Lifecycle {
 	}
 
 	public Message<?> handleMessage(Message<?> message) throws MessagingException {
+		return null;
+	}
+
+	@Override
+	public Object processMessage(Message message) {
 		if (start.get() == -1L) {
 			synchronized (start) {
 				if (start.get() == -1L) {
